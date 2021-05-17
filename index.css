@@ -16,4 +16,21 @@ body{
 
 .board{
     background: #111;
+    position: relative;
+}
+
+.peice{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: -1000px;
+    top: -1000px;
+}
+
+.player{
+    background: green;
+}
+
+.fruit{
+    background: red;
 }
