@@ -64,15 +64,41 @@ class Game{
 
     update(){
         this.snake.update(this.board_size_cells);
+        if(this.snake.head.equals(this.fruit)){
+            this.snake.length_to_add += 2;
+            this.new_fruit();
+        }
+    }
+    
+    kbin(event){
+        switch(event.key.toLowerCase()){
+            case 'w':
+            case 'arrowup':
+                this.snake.set_direction(Direction.UP);
+                break;
+            case 'a':
+            case 'arrowleft':
+                this.snake.set_direction(Direction.LEFT);
+                break;
+            case 's':
+            case 'arrowdown':
+                this.snake.set_direction(Direction.DOWN);
+                break;
+            case 'd':
+            case 'arrowright':
+                this.snake.set_direction(Direction.RIGHT);
+                break;
+        }
     }
 
     run(){
+        document.addEventListener('keydown', event=>this.kbin(event));
         let interval = setInterval(()=>{
             if(!this.snake.alive) // if the snake died
                 clearInterval(interval); // exit interval
             this.draw();
             this.update();
-        }, 500);
+        }, 100);
     }
 }
 
@@ -81,13 +107,18 @@ class Snake{
         this.head = head;
         this.tail = [];
         this.direction = Direction.UP;
-        this.prev_direction = Direction.UP;
+        this.previous_direction = this.direction;
         this.length_to_add = 2;
         this.board_elem = board_elem;
         this.head_elem = board_elem.querySelector('.head');
         this.tail_elems = [];
         this.tail_piece_elem = board_elem.querySelector('#tail-piece').content.firstElementChild.cloneNode(true);
         this.alive = true;
+    }
+
+    set_direction(new_direction){
+        if(get_opposite_direction(new_direction) != this.previous_direction)
+            this.direction = new_direction;
     }
 
     draw(cell_size){
@@ -100,6 +131,35 @@ class Snake{
     }
 
     update(board_size){
+        let new_head = this.head.clone();
+        this.previous_direction = this.direction;
+        // move
+        switch(this.direction){
+            case Direction.UP:
+                new_head.y -= 1
+                break;
+            case Direction.DOWN:
+                new_head.y += 1
+                break;
+            case Direction.LEFT:
+                new_head.x -= 1
+                break;
+            case Direction.RIGHT:
+                new_head.x += 1
+                break;
+        }
+
+        //check if new head overlaps
+        if(new_head.in_list(this.tail)
+            || new_head.x < 0 || new_head.y < 0
+            || new_head.x >= board_size.x
+            || new_head.y >= board_size.y
+        ){
+            this.alive = false;
+            return;
+        }
+
+        // update tail
         this.tail.unshift(this.head.clone());
         if(this.length_to_add < 1)
             this.tail.pop();
@@ -109,27 +169,7 @@ class Snake{
             this.board_elem.appendChild(el);
             this.tail_elems.push(el);
         }
-        switch(this.direction){
-            case Direction.UP:
-                this.head.y -= 1
-                break;
-            case Direction.DOWN:
-                this.head.y += 1
-                break;
-            case Direction.LEFT:
-                this.head.x -= 1
-                break;
-            case Direction.RIGHT:
-                this.head.x += 1
-                break;
-        }
 
-        //check if new head overlaps
-        if(this.head.in_list(this.tail)
-            || this.head.x < 0 || this.head.y < 0
-            || this.head.x >= board_size.x
-            || this.head.y >= board_size.y
-        )
-            this.alive = false;
+        this.head = new_head;
     }
 }

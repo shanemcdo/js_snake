@@ -27,7 +27,7 @@ class Point{
     }
 
     in_list(list){
-        for(let item in list)
+        for(let item of list)
             if(this.equals(item))
                 return true;
         return false;

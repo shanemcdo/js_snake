@@ -1,6 +1,6 @@
 :root{
-    --head-color: green;
-    --tail-color: var(--head-color);
+    --head-color: #0c0;
+    --tail-color: green;
     --fruit-color: red;
     --bg: #11;
 }
