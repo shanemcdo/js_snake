@@ -5,6 +5,7 @@ class Game{
         this.board_elem = board_elem;
         this.fruit_elem = board_elem.querySelector('.fruit');
         this.pause_elem = board_elem.querySelector('#pause-menu');
+        this.death_elem = board_elem.querySelector('#death-menu');
         this.update_window_size();
         document.body.onresize = ()=> this.update_window_size(); // arrow function is needed
         this.snake = new Snake(
@@ -16,6 +17,7 @@ class Game{
         this.new_fruit();
         this.finished = false;
         this.paused = false;
+        this.score = 0;
     }
 
     toggle_pause(){
@@ -74,6 +76,7 @@ class Game{
         this.snake.update(this.board_size_cells);
         if(this.snake.head.equals(this.fruit)){
             this.snake.length_to_add += 2;
+            this.score += 1;
             this.new_fruit();
         }
     }
@@ -112,6 +115,7 @@ class Game{
             if(!this.snake.alive){ // if the snake died
                 this.running = false;
                 this.finished = true;
+                this.death_elem.classList.toggle('hidden');
                 clearInterval(interval); // exit interval
             }
             this.draw();
