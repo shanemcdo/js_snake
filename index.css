@@ -1,4 +1,8 @@
 :root{
+    --head-color: green;
+    --tail-color: var(--head-color);
+    --fruit-color: red;
+    --bg: #11;
 }
 
 html,body{
@@ -27,10 +31,14 @@ body{
     top: -1000px;
 }
 
-.player{
-    background: green;
+.head{
+    background: var(--head-color);
+}
+
+.tail{
+    background: var(--tail-color);
 }
 
 .fruit{
-    background: red;
+    background: var(--fruit-color);
 }

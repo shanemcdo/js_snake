@@ -3,6 +3,7 @@ class Game{
 
     constructor(board_elem){
         this.board_elem = board_elem;
+        this.fruit_elem = board_elem.querySelector('.fruit');
         this.update_window_size();
         document.body.onresize = ()=> this.update_window_size(); // arrow function is needed
         this.snake = new Snake(
@@ -11,6 +12,7 @@ class Game{
                 .floor(),
             board_elem,
         );
+        this.new_fruit();
     }
 
     update_window_size(){
@@ -41,6 +43,32 @@ class Game{
             Math.floor(this.board_size_pixels.x / this.cell_size.x),
             Math.floor(this.board_size_pixels.y / this.cell_size.y),
         );
+    }
+
+    new_fruit(){
+        this.fruit = Point.random_between(
+            new Point(0, 0),
+            this.board_size_cells,
+        );
+    }
+
+    draw_fruit(){
+        this.fruit_elem.style.left = (this.fruit.x * this.cell_size.x).toString() + 'px';
+        this.fruit_elem.style.top = (this.fruit.y * this.cell_size.y).toString() + 'px';
+    }
+
+    draw(){
+        this.snake.draw(this.cell_size);
+        this.draw_fruit();
+    }
+
+    run(){
+        let interval = setInterval(()=>{
+            if(!this.snake.alive) // if the snake died
+                clearInterval(interval); // exit interval
+            this.draw();
+            this.snake.update(this.board_size_cells);
+        }, 500);
     }
 }
 
@@ -86,9 +114,9 @@ class Snake{
         //check if new head overlaps
         if(this.head.in_list(this.tail)
             || this.head.x < 0 || this.head.y < 0
-            || this.head.x >= this.board_size_cells.x
-            || this.head.y >= this.board_size_cells.y
+            || this.head.x >= board_size.x
+            || this.head.y >= board_size.y
         )
-            this.alive =false;
+            this.alive = false;
     }
 }

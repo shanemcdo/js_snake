@@ -32,4 +32,11 @@ class Point{
                 return true;
         return false;
     }
+
+    static random_between(p0, p1){
+        return new Point(
+            Math.floor(Math.random() * (p1.x - p0.x) + p0.x),
+            Math.floor(Math.random() * (p1.y - p0.y) + p0.y),
+        );
+    }
 }
