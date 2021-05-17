@@ -4,6 +4,7 @@ class Game{
     constructor(board_elem){
         this.board_elem = board_elem;
         this.fruit_elem = board_elem.querySelector('.fruit');
+        this.pause_elem = board_elem.querySelector('#pause-menu');
         this.update_window_size();
         document.body.onresize = ()=> this.update_window_size(); // arrow function is needed
         this.snake = new Snake(
@@ -13,6 +14,13 @@ class Game{
             board_elem,
         );
         this.new_fruit();
+        this.finished = false;
+        this.paused = false;
+    }
+
+    toggle_pause(){
+        this.paused = !this.paused;
+        this.pause_elem.classList.toggle('hidden');
     }
 
     update_window_size(){
@@ -88,17 +96,33 @@ class Game{
             case 'arrowright':
                 this.snake.set_direction(Direction.RIGHT);
                 break;
+            case 'p':
+            case 'escape':
+                this.toggle_pause();
+                break;
         }
     }
-
+    
     run(){
+        this.running = true;
         document.addEventListener('keydown', event=>this.kbin(event));
         let interval = setInterval(()=>{
-            if(!this.snake.alive) // if the snake died
+            if(this.paused)
+                return;
+            if(!this.snake.alive){ // if the snake died
+                this.running = false;
+                this.finished = true;
                 clearInterval(interval); // exit interval
+            }
             this.draw();
             this.update();
         }, 100);
+    }
+    
+    reset(){
+        this.new_fruit();
+        this.snake.reset(this.board_size_cells)
+        this.draw();
     }
 }
 
@@ -171,5 +195,18 @@ class Snake{
         }
 
         this.head = new_head;
+    }
+
+    reset(board_size){
+        this.tail = [];
+        for(let child of this.tail_elems)
+            this.board_elem.removeChild(child);
+        this.tail_elems = [];
+        this.head = board_size
+            .scalar_mul(0.5)
+            .floor();
+        this.length_to_add = 2;
+        this.alive = true;
+        this.direction = Direction.UP
     }
 }

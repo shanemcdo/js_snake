@@ -11,6 +11,14 @@
     </head>
     <body>
         <div class="board">
+            <div class="menu" id=start-menu>
+                <h1>JS Snake</h1>
+                <button class="button" onclick="start()">Play</button>
+            </div>
+            <div class="hidden menu" id=pause-menu>
+                <h1>Paused</h1>
+                <button class="button" onclick="game.toggle_pause()">Resume</button>
+            </div>
             <template id="tail-piece"><div class="peice player tail"></div></template>
             <div class="peice player head"></div>
             <div class="peice fruit"></div>

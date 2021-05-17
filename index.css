@@ -2,7 +2,9 @@
     --head-color: #0c0;
     --tail-color: green;
     --fruit-color: red;
-    --bg: #11;
+    --bg: #111;
+    --menu-bg: #333;
+    --menu-text-color: #eee;
 }
 
 html,body{
@@ -16,6 +18,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.hidden{
+    display: none;
 }
 
 .board{
@@ -41,4 +47,19 @@ body{
 
 .fruit{
     background: var(--fruit-color);
+}
+
+.menu{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:  translate(-50%, -50%);
+    background: var(--menu-bg);
+    color: var(--menu-text-color);
+    padding: 10px;
+    z-index: 2;
+}
+
+.menu .button{
+    width: 100%;
 }

@@ -1,3 +1,10 @@
 const board_element = document.querySelector('.board');
+const start_menu = board_element.querySelector('#start-menu');
 const game = new Game(board_element);
-game.run();
+
+function start(){
+    start_menu.classList.add('hidden');
+    if(game.finished)
+        game.reset();
+    game.run();
+}
