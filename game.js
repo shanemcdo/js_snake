@@ -16,12 +16,12 @@ class Game{
     }
 
     update_window_size(){
-        console.log('set');
         this.window_size = this.get_window_size();
         this.board_size_pixels = this.get_board_size_pixels();
         this.board_size_cells = this.get_board_size_cells();
         this.board_elem.style.width = this.board_size_pixels.x.toString() + "px";
         this.board_elem.style.height = this.board_size_pixels.y.toString() + "px";
+        this.new_fruit();
     }
 
     get_window_size(){
@@ -62,12 +62,16 @@ class Game{
         this.draw_fruit();
     }
 
+    update(){
+        this.snake.update(this.board_size_cells);
+    }
+
     run(){
         let interval = setInterval(()=>{
             if(!this.snake.alive) // if the snake died
                 clearInterval(interval); // exit interval
             this.draw();
-            this.snake.update(this.board_size_cells);
+            this.update();
         }, 500);
     }
 }
@@ -77,6 +81,7 @@ class Snake{
         this.head = head;
         this.tail = [];
         this.direction = Direction.UP;
+        this.prev_direction = Direction.UP;
         this.length_to_add = 2;
         this.board_elem = board_elem;
         this.head_elem = board_elem.querySelector('.head');
@@ -88,14 +93,22 @@ class Snake{
     draw(cell_size){
         this.head_elem.style.left = (this.head.x * cell_size.x).toString() + 'px';
         this.head_elem.style.top = (this.head.y * cell_size.y).toString() + 'px';
+        for(let i = 0; i < this.tail.length; i++){
+            this.tail_elems[i].style.left = (this.tail[i].x * cell_size.x).toString() + 'px';
+            this.tail_elems[i].style.top = (this.tail[i].y * cell_size.y).toString() + 'px';
+        }
     }
 
     update(board_size){
-        this.tail.unshift(this.head);
+        this.tail.unshift(this.head.clone());
         if(this.length_to_add < 1)
             this.tail.pop();
-        else
+        else{
             this.length_to_add--;
+            let el = this.tail_piece_elem.cloneNode(true);
+            this.board_elem.appendChild(el);
+            this.tail_elems.push(el);
+        }
         switch(this.direction){
             case Direction.UP:
                 this.head.y -= 1
