@@ -7,12 +7,12 @@ class Game{
         this.pause_elem = board_elem.querySelector('#pause-menu');
         this.death_elem = board_elem.querySelector('#death-menu');
         this.score_elem = board_elem.querySelector('.score');
-        this.update_window_size();
         document.body.onresize = ()=> this.update_window_size(); // arrow function is needed
+        this.update_window_size();
         this.snake = new Snake(
             this.board_size_cells
                 .scalar_mul(0.5)
-                .floor(),
+                .floor(), // center
             board_elem,
         );
         this.new_fruit();
@@ -57,10 +57,15 @@ class Game{
     }
 
     new_fruit(){
-        this.fruit = Point.random_between(
-            new Point(0, 0),
-            this.board_size_cells,
-        );
+        let possibilities = [];
+        for(let i = 0; i < this.board_size_cells.y; i++){
+            for(let j = 0; j < this.board_size_cells.x; j++){
+                let new_pos = new Point(j, i);
+                if(!this.snake?.collides_with(new_pos))
+                    possibilities.push(new_pos);
+            }
+        }
+        this.fruit = possibilities[Math.floor(Math.random() * possibilities.length)];
     }
 
     draw_fruit(){
@@ -217,5 +222,14 @@ class Snake{
         this.length_to_add = 2;
         this.alive = true;
         this.direction = Direction.UP
+    }
+
+    collides_with(pos){
+        if(this.head.equals(pos))
+            return true;
+        for(let cell of this.tail)
+            if(cell.equals(pos))
+                return true;
+        return false;
     }
 }
