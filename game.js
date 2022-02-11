@@ -153,6 +153,7 @@ class Snake{
         this.tail_elems = [];
         this.tail_piece_elem = board_elem.querySelector('#tail-piece').content.firstElementChild.cloneNode(true);
         this.alive = true;
+        this.loopable_walls = true;
     }
 
     set_direction(new_direction){
@@ -242,12 +243,27 @@ class Snake{
                 break;
         }
 
-        //check if new head overlaps
-        if(new_head.in_list(this.tail)
-            || new_head.x < 0 || new_head.y < 0
+        //check if out of bounds
+        let out_of_bounds = new_head.x < 0
+            || new_head.y < 0
             || new_head.x >= board_size.x
-            || new_head.y >= board_size.y
-        ){
+            || new_head.y >= board_size.y;
+        if(out_of_bounds && this.loopable_walls){
+            if(new_head.y < 0){
+                new_head.y = board_size.y - 1;
+            }else if(new_head.y >= board_size.y){
+                new_head.y = 0;
+            }
+            if(new_head.x < 0){
+                new_head.x = board_size.x - 1;
+            }else if(new_head.x >= board_size.x){
+                new_head.x = 0;
+            }
+            out_of_bounds = false;
+        }
+
+        //check if new head overlaps
+        if(new_head.in_list(this.tail) || out_of_bounds){
             this.alive = false;
             return;
         }
