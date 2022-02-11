@@ -19,6 +19,7 @@ class Game{
         this.finished = false;
         this.paused = false;
         this.score = 0;
+        this.loopable_walls = true;
     }
 
     toggle_pause(){
@@ -79,7 +80,7 @@ class Game{
     }
 
     update(){
-        this.snake.update(this.board_size_cells);
+        this.snake.update(this.board_size_cells, this.loopable_walls);
         if(this.snake.head.equals(this.fruit)){
             this.snake.length_to_add += 2;
             this.score += 1;
@@ -153,7 +154,6 @@ class Snake{
         this.tail_elems = [];
         this.tail_piece_elem = board_elem.querySelector('#tail-piece').content.firstElementChild.cloneNode(true);
         this.alive = true;
-        this.loopable_walls = true;
     }
 
     set_direction(new_direction){
@@ -224,7 +224,7 @@ class Snake{
         }
     }
 
-    update(board_size){
+    update(board_size, loopable_walls = false){
         let new_head = this.head.clone();
         this.previous_direction = this.direction;
         // move
@@ -248,7 +248,7 @@ class Snake{
             || new_head.y < 0
             || new_head.x >= board_size.x
             || new_head.y >= board_size.y;
-        if(out_of_bounds && this.loopable_walls){
+        if(out_of_bounds && loopable_walls){
             if(new_head.y < 0){
                 new_head.y = board_size.y - 1;
             }else if(new_head.y >= board_size.y){
