@@ -14,15 +14,13 @@
             <div class="score">0</div>
             <div class="menu" id=start-menu>
                 <h1>JS Snake</h1>
+                <label for="loopable-walls">Loopable Walls</label>
+                <input type="checkbox" name="loopable-walls" id="loopable-walls" oninput="game.loopable_walls=this.checked" checked>
                 <button class="button" onclick="start()">Play</button>
             </div>
             <div class="hidden menu" id=pause-menu>
                 <h1>Paused</h1>
                 <button class="button" onclick="game.toggle_pause()">Resume</button>
-            </div>
-            <div class="hidden menu" id=death-menu>
-                <h1>Game Over</h1>
-                <button class="button" onclick="start()">Play again</button>
             </div>
             <template id="tail-piece"><div class="peice player tail"></div></template>
             <div class="peice player head"></div>

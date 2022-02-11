@@ -5,7 +5,7 @@ class Game{
         this.board_elem = board_elem;
         this.fruit_elem = board_elem.querySelector('.fruit');
         this.pause_elem = board_elem.querySelector('#pause-menu');
-        this.death_elem = board_elem.querySelector('#death-menu');
+        this.death_elem = board_elem.querySelector('#start-menu');
         this.score_elem = board_elem.querySelector('.score');
         document.body.onresize = ()=> this.update_window_size(); // arrow function is needed
         this.update_window_size();

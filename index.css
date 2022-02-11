@@ -150,6 +150,7 @@ body{
     color: var(--menu-text-color);
     padding: 10px;
     z-index: 2;
+    text-align: center;
 }
 
 .menu .button{
