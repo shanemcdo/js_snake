@@ -164,3 +164,7 @@ body{
     z-index: 2;
     color: var(--menu-text-color);
 }
+
+button {
+    margin-top: 10px;
+}
