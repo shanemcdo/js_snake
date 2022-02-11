@@ -144,6 +144,7 @@ class Snake{
     constructor(head, board_elem){
         this.head = head;
         this.tail = [];
+        this.tail_dirs = [];
         this.direction = Direction.UP;
         this.previous_direction = this.direction;
         this.length_to_add = 2;
@@ -162,9 +163,63 @@ class Snake{
     draw(cell_size){
         this.head_elem.style.left = (this.head.x * cell_size.x).toString() + 'px';
         this.head_elem.style.top = (this.head.y * cell_size.y).toString() + 'px';
-        for(let i = 0; i < this.tail.length; i++){
-            this.tail_elems[i].style.left = (this.tail[i].x * cell_size.x).toString() + 'px';
-            this.tail_elems[i].style.top = (this.tail[i].y * cell_size.y).toString() + 'px';
+        let prev_dir = null
+        for(let i = this.tail.length - 1; i >= 0; i--){
+            let el = this.tail_elems[i];
+            let dir = this.tail_dirs[i];
+            el.style.left = (this.tail[i].x * cell_size.x).toString() + 'px';
+            el.style.top = (this.tail[i].y * cell_size.y).toString() + 'px';
+            el.classList.remove('turn');
+            el.classList.remove('straight-vert');
+            el.classList.remove('straight-horiz');
+            el.classList.remove('connect-upa');
+            el.classList.remove('connect-downa');
+            el.classList.remove('connect-lefta');
+            el.classList.remove('connect-righta');
+            el.classList.remove('connect-upb');
+            el.classList.remove('connect-downb');
+            el.classList.remove('connect-leftb');
+            el.classList.remove('connect-rightb');
+            if(prev_dir !== null && prev_dir !== dir){
+                el.classList.add('turn');
+                if(
+                    (prev_dir === Direction.RIGHT && dir === Direction.DOWN) ||
+                    (prev_dir === Direction.UP && dir === Direction.LEFT)
+                ){
+                    el.classList.add('connect-lefta');
+                    el.classList.add('connect-downb');
+                }else if(
+                    (prev_dir === Direction.RIGHT && dir === Direction.UP) ||
+                    (prev_dir === Direction.DOWN && dir === Direction.LEFT)
+                ){
+                    el.classList.add('connect-lefta');
+                    el.classList.add('connect-upb');
+                }else if(
+                    (prev_dir === Direction.LEFT && dir === Direction.DOWN) ||
+                    (prev_dir === Direction.UP && dir === Direction.RIGHT)
+                ){
+                    el.classList.add('connect-righta');
+                    el.classList.add('connect-downb');
+                }else if(
+                    (prev_dir === Direction.LEFT && dir === Direction.UP) ||
+                    (prev_dir === Direction.DOWN && dir === Direction.RIGHT)
+                ){
+                    el.classList.add('connect-righta');
+                    el.classList.add('connect-upb');
+                }
+            } else {
+                switch(dir){
+                    case Direction.LEFT:
+                    case Direction.RIGHT:
+                        el.classList.add('straight-horiz');
+                        break;
+                    case Direction.UP:
+                    case Direction.DOWN:
+                        el.classList.add('straight-vert');
+                        break;
+                }
+            }
+            prev_dir = dir;
         }
     }
 
@@ -199,9 +254,11 @@ class Snake{
 
         // update tail
         this.tail.unshift(this.head.clone());
-        if(this.length_to_add < 1)
+        this.tail_dirs.unshift(this.direction);
+        if(this.length_to_add < 1){
             this.tail.pop();
-        else{
+            this.tail_dirs.pop();
+        }else{
             this.length_to_add--;
             let el = this.tail_piece_elem.cloneNode(true);
             this.board_elem.appendChild(el);
@@ -213,6 +270,7 @@ class Snake{
 
     reset(board_size){
         this.tail = [];
+        this.tail_dirs = [];
         for(let child of this.tail_elems)
             this.board_elem.removeChild(child);
         this.tail_elems = [];
