@@ -93,19 +93,19 @@ class Game{
         switch(event.key.toLowerCase()){
             case 'w':
             case 'arrowup':
-                this.snake.set_direction(Direction.UP);
+                this.snake.add_dir_to_buffer(Direction.UP);
                 break;
             case 'a':
             case 'arrowleft':
-                this.snake.set_direction(Direction.LEFT);
+                this.snake.add_dir_to_buffer(Direction.LEFT);
                 break;
             case 's':
             case 'arrowdown':
-                this.snake.set_direction(Direction.DOWN);
+                this.snake.add_dir_to_buffer(Direction.DOWN);
                 break;
             case 'd':
             case 'arrowright':
-                this.snake.set_direction(Direction.RIGHT);
+                this.snake.add_dir_to_buffer(Direction.RIGHT);
                 break;
             case 'p':
             case 'escape':
@@ -154,11 +154,11 @@ class Snake{
         this.tail_elems = [];
         this.tail_piece_elem = board_elem.querySelector('#tail-piece').content.firstElementChild.cloneNode(true);
         this.alive = true;
+        this.direction_buffer = [];
     }
 
-    set_direction(new_direction){
-        if(get_opposite_direction(new_direction) != this.previous_direction)
-            this.direction = new_direction;
+    add_dir_to_buffer(new_direction){
+        this.direction_buffer.push(new_direction);
     }
 
     draw(cell_size){
@@ -226,6 +226,12 @@ class Snake{
 
     update(board_size, loopable_walls = false){
         let new_head = this.head.clone();
+        if(this.direction_buffer.length){
+            let new_dir = this.direction_buffer.shift();
+            if(get_opposite_direction(new_dir) !== this.direction){
+                this.direction = new_dir;
+            }
+        }
         this.previous_direction = this.direction;
         // move
         switch(this.direction){
