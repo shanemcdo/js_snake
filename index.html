@@ -15,14 +15,16 @@
             <div class="score">0</div>
             <div class="menu" id=start-menu>
                 <h1>JS Snake</h1>
-                <label for="loopable-walls">Loopable Walls</label>
-                <input type="checkbox" name="loopable-walls" id="loopable-walls" oninput="game.loopable_walls=this.checked" checked>
-                <label for="head-color">Head Color</label>
-                <input type="color" value="#00cc00" name="head-color" id="head-color" oninput="document.querySelector(':root').style.setProperty('--head-color', this.value);" >
-                <label for="tail-color">Tail Color</label>
-                <input type="color" value="#008000" name="tail-color" id="tail-color" oninput="document.querySelector(':root').style.setProperty('--tail-color', this.value);" >
-                <label for="fruit-color">Fruit Color</label>
-                <input type="color" value="#FF0000" name="fruit-color" id="fruit-color" oninput="document.querySelector(':root').style.setProperty('--fruit-color', this.value);" >
+                <div class="grid">
+                    <label for="loopable-walls">Loopable Walls</label>
+                    <input type="checkbox" name="loopable-walls" id="loopable-walls" oninput="game.loopable_walls=this.checked" checked>
+                    <label for="head-color">Head Color</label>
+                    <input type="color" value="#00cc00" name="head-color" id="head-color" oninput="document.querySelector(':root').style.setProperty('--head-color', this.value);" >
+                    <label for="tail-color">Tail Color</label>
+                    <input type="color" value="#008000" name="tail-color" id="tail-color" oninput="document.querySelector(':root').style.setProperty('--tail-color', this.value);" >
+                    <label for="fruit-color">Fruit Color</label>
+                    <input type="color" value="#FF0000" name="fruit-color" id="fruit-color" oninput="document.querySelector(':root').style.setProperty('--fruit-color', this.value);" >
+                </div>
                 <button class="button" onclick="start()">Play</button>
             </div>
             <div class="hidden menu" id=pause-menu>

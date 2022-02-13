@@ -21,10 +21,6 @@ body{
     justify-content: center;
 }
 
-label {
-    display: block;
-}
-
 .hidden{
     display: none;
 }
@@ -159,6 +155,16 @@ label {
 
 .menu .button{
     width: 100%;
+}
+
+.grid{
+    display: grid;
+    grid-auto-rows: 1fr; /* Make every row the same height */
+    grid-template-columns: repeat(2, 1fr);
+}
+
+input{
+    margin: auto;
 }
 
 .score{
