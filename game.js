@@ -116,16 +116,20 @@ class Game{
     
     run(){
         this.running = true;
-        document.addEventListener('keydown', event=>this.kbin(event));
+        let kbin = event=>this.kbin(event);
+        document.addEventListener('keydown', kbin);
         let interval = setInterval(()=>{
-            if(this.paused)
-                return;
-            if(!this.snake.alive){ // if the snake died
+            if(!this.snake.alive || !this.running){ // if the snake died
                 this.running = false;
                 this.finished = true;
-                this.death_elem.classList.toggle('hidden');
+                this.pause_elem.classList.add('hidden');
+                this.death_elem.classList.remove('hidden');
                 this.score_elem.innerHTML = this.score.toString();
+                document.removeEventListener('keydown', kbin); // need to remove listener to not cause problems on next runs
                 clearInterval(interval); // exit interval
+            }
+            if(this.paused){
+                return;
             }
             this.draw();
             this.update();
@@ -137,6 +141,11 @@ class Game{
         this.snake.reset(this.board_size_cells)
         this.draw();
         this.score = 0;
+        this.paused = false;
         this.score_elem.innerHTML = this.score.toString();
+    }
+
+    finish(){
+        this.running = false;
     }
 }
