@@ -91,18 +91,22 @@ class Game{
     
     kbin(event){
         switch(event.key.toLowerCase()){
+            case 'k':
             case 'w':
             case 'arrowup':
                 this.snake.add_dir_to_buffer(Direction.UP);
                 break;
+            case 'h':
             case 'a':
             case 'arrowleft':
                 this.snake.add_dir_to_buffer(Direction.LEFT);
                 break;
+            case 'j':
             case 's':
             case 'arrowdown':
                 this.snake.add_dir_to_buffer(Direction.DOWN);
                 break;
+            case 'l':
             case 'd':
             case 'arrowright':
                 this.snake.add_dir_to_buffer(Direction.RIGHT);
