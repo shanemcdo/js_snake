@@ -21,6 +21,10 @@ body{
     justify-content: center;
 }
 
+label {
+    display: block;
+}
+
 .hidden{
     display: none;
 }
