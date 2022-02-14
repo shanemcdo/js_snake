@@ -49,6 +49,21 @@ body{
     padding: 0;
 }
 
+.looking-up{
+    transform: rotate(180deg);
+}
+
+.looking-down{
+    transform: rotate(0deg);
+}
+.looking-left{
+    transform: rotate(90deg);
+}
+
+.looking-right{
+    transform: rotate(-90deg);
+}
+
 .tail{
     background: var(--tail-color);
 }

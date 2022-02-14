@@ -21,6 +21,24 @@ class Snake{
     draw(cell_size){
         this.head_elem.style.left = (this.head.x * cell_size.x).toString() + 'px';
         this.head_elem.style.top = (this.head.y * cell_size.y).toString() + 'px';
+        this.head_elem.classList.remove('looking-up');
+        this.head_elem.classList.remove('looking-down');
+        this.head_elem.classList.remove('looking-left');
+        this.head_elem.classList.remove('looking-right');
+        switch(this.direction){
+            case Direction.UP:
+                this.head_elem.classList.add('looking-up');
+                break;
+            case Direction.DOWN:
+                this.head_elem.classList.add('looking-down');
+                break;
+            case Direction.LEFT:
+                this.head_elem.classList.add('looking-left');
+                break;
+            case Direction.RIGHT:
+                this.head_elem.classList.add('looking-right');
+                break;
+        };
         let prev_dir = null
         for(let i = this.tail.length - 1; i >= 0; i--){
             let el = this.tail_elems[i];
