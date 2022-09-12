@@ -13,6 +13,7 @@ class Snake{
         this.alive = true;
         this.direction_buffer = [];
         this.img_elem = this.head_elem.querySelector('img');
+        this.img_elem.src = "assets/head_smile.png"
     }
 
     add_dir_to_buffer(new_direction){
@@ -147,7 +148,7 @@ class Snake{
         //check if new head overlaps
         if(new_head.in_list(this.tail) || out_of_bounds){
             this.alive = false;
-            this.img_elem.src = "https://placekitten.com/g/20/20";
+            this.img_elem.src = "assets/head_frown.png";
             return;
         }
 
