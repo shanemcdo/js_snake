@@ -12,6 +12,7 @@ class Snake{
         this.tail_piece_elem = board_elem.querySelector('#tail-piece').content.firstElementChild.cloneNode(true);
         this.alive = true;
         this.direction_buffer = [];
+        this.img_elem = this.head_elem.querySelector('img');
     }
 
     add_dir_to_buffer(new_direction){
@@ -146,6 +147,7 @@ class Snake{
         //check if new head overlaps
         if(new_head.in_list(this.tail) || out_of_bounds){
             this.alive = false;
+            this.img_elem.src = "https://placekitten.com/g/20/20";
             return;
         }
 
