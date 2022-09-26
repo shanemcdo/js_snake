@@ -97,36 +97,36 @@ body{
 .connect-upa::after{
     content: '';
     position: absolute;
-    width: 16px;
-    height: 2px;
-    transform: translateY(-2px);
+    width: var(--temp-name);
+    height: var(--offset);
+    transform: translateY(calc(-1 * var(--offset)));
     background: var(--tail-color);
 }
 
 .connect-downa::after{
     content: '';
     position: absolute;
-    width: 16px;
-    height: 2px;
-    transform: translateY(16px);
+    width: var(--temp-name);
+    height: var(--offset);
+    transform: translateY(var(--temp-name));
     background: var(--tail-color);
 }
 
 .connect-lefta::after{
     content: '';
     position: absolute;
-    width: 2px;
-    height: 16px;
-    transform: translateX(-2px);
+    width: var(--offset);
+    height: var(--temp-name);
+    transform: translateX(calc(-1 * var(--offset)));
     background: var(--tail-color);
 }
 
 .connect-righta::after{
     content: '';
     position: absolute;
-    width: 2px;
-    height: 16px;
-    transform: translateX(16px);
+    width: var(--offset);
+    height: var(--temp-name);
+    transform: translateX(var(--temp-name));
     background: var(--tail-color);
 }
 
@@ -142,18 +142,18 @@ body{
 .connect-downb::before{
     content: '';
     position: absolute;
-    width: 16px;
-    height: 2px;
-    transform: translateY(16px);
+    width: var(--temp-name);
+    height: var(--offset);
+    transform: translateY(var(--temp-name));
     background: var(--tail-color);
 }
 
 .connect-leftb::before{
     content: '';
     position: absolute;
-    width: 2px;
-    height: 16px;
-    transform: translateX(-2px);
+    width: var(--offset);
+    height: var(--temp-name);
+    transform: translateY(calc(-1 * var(--offset)));
     background: var(--tail-color);
 }
 
