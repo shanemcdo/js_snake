@@ -38,6 +38,7 @@ body{
     left: -1000px;
     top: -1000px;
     --offset: 2px;
+    --temp-name: calc(var(--cell-size) - var(--offset) * 2);
 }
 
 .head{
@@ -72,24 +73,24 @@ body{
 }
 
 
+.tail:nth-last-of-type(2),
 .tail:last-of-type{
     --offset: 4px;
 }
 
 .straight-vert{
-    width: calc(var(--cell-size) - var(--offset) * 2);
+    width: var(--temp-name);
     transform: translateX(var(--offset));
 }
 
 .straight-horiz{
-    height: calc(var(--cell-size) - var(--offset) * 2);
+    height: var(--temp-name);
     transform: translateY(var(--offset));
 }
 
 .turn{
-    --size: calc(var(--cell-size) - var(--offset) * 2); 
-    width: var(--size);
-    height: var(--size);
+    width: var(--temp-name);
+    height: var(--temp-name);
     transform: translate(var(--offset), var(--offset));
 }
 
@@ -132,9 +133,9 @@ body{
 .connect-upb::before{
     content: '';
     position: absolute;
-    width: 16px;
-    height: 2px;
-    transform: translateY(-2px);
+    width: var(--temp-name);
+    height: var(--offset);
+    transform: translateY(calc(-1 * var(--offset)));
     background: var(--tail-color);
 }
 
