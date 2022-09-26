@@ -20,8 +20,8 @@ class Snake{
     }
 
     draw(cell_size){
-        this.head_elem.style.left = (this.head.x * cell_size.x).toString() + 'px';
-        this.head_elem.style.top = (this.head.y * cell_size.y).toString() + 'px';
+        this.head_elem.style.setProperty('--pos-x', (this.head.x * cell_size.x).toString() + 'px');
+        this.head_elem.style.setProperty('--pos-y', (this.head.y * cell_size.y).toString() + 'px');
         this.head_elem.classList.remove('looking-up');
         this.head_elem.classList.remove('looking-down');
         this.head_elem.classList.remove('looking-left');
@@ -44,8 +44,8 @@ class Snake{
         for(let i = this.tail.length - 1; i >= 0; i--){
             let el = this.tail_elems[i];
             let dir = this.tail_dirs[i];
-            el.style.left = (this.tail[i].x * cell_size.x).toString() + 'px';
-            el.style.top = (this.tail[i].y * cell_size.y).toString() + 'px';
+            el.style.setProperty('--pos-x', (this.tail[i].x * cell_size.x).toString() + 'px');
+            el.style.setProperty('--pos-y', (this.tail[i].y * cell_size.y).toString() + 'px');
             el.classList.remove('turn');
             el.classList.remove('straight-vert');
             el.classList.remove('straight-horiz');
