@@ -57,6 +57,8 @@ class Snake{
             el.classList.remove('connect-downb');
             el.classList.remove('connect-leftb');
             el.classList.remove('connect-rightb');
+            el.style.setProperty('--offset', '');
+            el.style.setProperty('--offset', Math.round(i / (this.tail.length - 1) * 4 + 2).toString() + 'px');
             if(prev_dir !== null && prev_dir !== dir){
                 el.classList.add('turn');
                 if(

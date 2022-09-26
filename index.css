@@ -75,11 +75,6 @@ body{
 }
 
 
-.tail:nth-last-of-type(2),
-.tail:last-of-type{
-    --offset: 4px;
-}
-
 .straight-vert{
     width: var(--offsetted-size);
     transform: translateX(var(--offset));
