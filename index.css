@@ -38,7 +38,7 @@ body{
     left: -1000px;
     top: -1000px;
     --offset: 2px;
-    --temp-name: calc(var(--cell-size) - var(--offset) * 2);
+    --offsetted-size: calc(var(--cell-size) - var(--offset) * 2);
 }
 
 .head{
@@ -79,25 +79,25 @@ body{
 }
 
 .straight-vert{
-    width: var(--temp-name);
+    width: var(--offsetted-size);
     transform: translateX(var(--offset));
 }
 
 .straight-horiz{
-    height: var(--temp-name);
+    height: var(--offsetted-size);
     transform: translateY(var(--offset));
 }
 
 .turn{
-    width: var(--temp-name);
-    height: var(--temp-name);
+    width: var(--offsetted-size);
+    height: var(--offsetted-size);
     transform: translate(var(--offset), var(--offset));
 }
 
 .connect-upa::after{
     content: '';
     position: absolute;
-    width: var(--temp-name);
+    width: var(--offsetted-size);
     height: var(--offset);
     transform: translateY(calc(-1 * var(--offset)));
     background: var(--tail-color);
@@ -106,9 +106,9 @@ body{
 .connect-downa::after{
     content: '';
     position: absolute;
-    width: var(--temp-name);
+    width: var(--offsetted-size);
     height: var(--offset);
-    transform: translateY(var(--temp-name));
+    transform: translateY(var(--offsetted-size));
     background: var(--tail-color);
 }
 
@@ -116,7 +116,7 @@ body{
     content: '';
     position: absolute;
     width: var(--offset);
-    height: var(--temp-name);
+    height: var(--offsetted-size);
     transform: translateX(calc(-1 * var(--offset)));
     background: var(--tail-color);
 }
@@ -125,15 +125,15 @@ body{
     content: '';
     position: absolute;
     width: var(--offset);
-    height: var(--temp-name);
-    transform: translateX(var(--temp-name));
+    height: var(--offsetted-size);
+    transform: translateX(var(--offsetted-size));
     background: var(--tail-color);
 }
 
 .connect-upb::before{
     content: '';
     position: absolute;
-    width: var(--temp-name);
+    width: var(--offsetted-size);
     height: var(--offset);
     transform: translateY(calc(-1 * var(--offset)));
     background: var(--tail-color);
@@ -142,9 +142,9 @@ body{
 .connect-downb::before{
     content: '';
     position: absolute;
-    width: var(--temp-name);
+    width: var(--offsetted-size);
     height: var(--offset);
-    transform: translateY(var(--temp-name));
+    transform: translateY(var(--offsetted-size));
     background: var(--tail-color);
 }
 
@@ -152,7 +152,7 @@ body{
     content: '';
     position: absolute;
     width: var(--offset);
-    height: var(--temp-name);
+    height: var(--offsetted-size);
     transform: translateY(calc(-1 * var(--offset)));
     background: var(--tail-color);
 }
