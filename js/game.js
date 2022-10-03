@@ -80,6 +80,10 @@ class Game{
     }
 
     update(){
+        if(swipe_direction != null){
+            this.snake.add_dir_to_buffer(swipe_direction)
+            swipe_direction = null;
+        }
         this.snake.update(this.board_size_cells, this.loopable_walls);
         if(this.snake.head.equals(this.fruit)){
             this.snake.length_to_add += 2;
