@@ -107,7 +107,7 @@ class Game{
             }
             this.draw();
             this.update();
-        }, 100);
+        }, 10);
     }
     
     reset(){
