@@ -80,10 +80,6 @@ class Game{
     }
 
     update(){
-        if(swipe_direction != null){
-            this.snake.add_dir_to_buffer(swipe_direction)
-            swipe_direction = null;
-        }
         this.snake.update(this.board_size_cells, this.loopable_walls);
         if(this.snake.head.equals(this.fruit)){
             this.snake.length_to_add += 2;
@@ -93,47 +89,17 @@ class Game{
         }
     }
     
-    kbin(event){
-        switch(event.key.toLowerCase()){
-            case 'k':
-            case 'w':
-            case 'arrowup':
-                this.snake.add_dir_to_buffer(Direction.UP);
-                break;
-            case 'h':
-            case 'a':
-            case 'arrowleft':
-                this.snake.add_dir_to_buffer(Direction.LEFT);
-                break;
-            case 'j':
-            case 's':
-            case 'arrowdown':
-                this.snake.add_dir_to_buffer(Direction.DOWN);
-                break;
-            case 'l':
-            case 'd':
-            case 'arrowright':
-                this.snake.add_dir_to_buffer(Direction.RIGHT);
-                break;
-            case 'p':
-            case 'escape':
-                this.toggle_pause();
-                break;
-        }
-    }
-    
     run(){
         this.running = true;
-        let kbin = event=>this.kbin(event);
-        document.addEventListener('keydown', kbin);
+        let bot = new Bot(game);
         let interval = setInterval(()=>{
+            bot.move();
             if(!this.snake.alive || !this.running){ // if the snake died
                 this.running = false;
                 this.finished = true;
                 this.pause_elem.classList.add('hidden');
                 this.death_elem.classList.remove('hidden');
                 this.score_elem.innerHTML = this.score.toString();
-                document.removeEventListener('keydown', kbin); // need to remove listener to not cause problems on next runs
                 clearInterval(interval); // exit interval
             }
             if(this.paused){
