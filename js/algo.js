@@ -6,7 +6,16 @@ class Bot {
     move(){
         this.chase_fruit()
         if(this.will_die()) {
-            console.log('will die');
+            let dirs = [
+                Direction.UP,
+                Direction.DOWN,
+                Direction.LEFT,
+                Direction.RIGHT,
+            ];
+            for(let dir of dirs){
+                this.game.snake.direction = dir;
+                if(!this.will_die()) return;
+            }
         }
     }
 
