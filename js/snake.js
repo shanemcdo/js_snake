@@ -112,20 +112,20 @@ class Snake{
         }
         this.previous_direction = this.direction;
         // move
-        switch(this.direction){
-            case Direction.UP:
-                new_head.y -= 1
-                break;
-            case Direction.DOWN:
-                new_head.y += 1
-                break;
-            case Direction.LEFT:
-                new_head.x -= 1
-                break;
-            case Direction.RIGHT:
-                new_head.x += 1
-                break;
-        }
+        // switch(this.direction){
+        //     case Direction.UP:
+        //         new_head.y -= 1
+        //         break;
+        //     case Direction.DOWN:
+        //         new_head.y += 1
+        //         break;
+        //     case Direction.LEFT:
+        //         new_head.x -= 1
+        //         break;
+        //     case Direction.RIGHT:
+        //         new_head.x += 1
+        //         break;
+        // }
 
         //check if out of bounds
         let out_of_bounds = new_head.x < 0

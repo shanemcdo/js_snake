@@ -4,7 +4,8 @@ class Bot {
     }
 
     move(){
-        this.chase_fruit()
+        this.game.snake.head = this.game.fruit;
+        // this.chase_fruit()
         // console.log(this.will_die());
     }
 
