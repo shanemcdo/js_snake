@@ -5,7 +5,9 @@ class Bot {
 
     move(){
         this.chase_fruit()
-        // console.log(this.will_die());
+        if(this.will_die()) {
+            console.log('will die');
+        }
     }
 
     chase_fruit(){
@@ -38,8 +40,9 @@ class Bot {
 
     // check if the snake will die if it moves the current direction
     will_die(){
-        // TODO:
-        return false;
+        let snake = this.game.snake.clone();
+        snake.update(this.game.board_size_cells);
+        return !snake.alive;
     }
 }
 

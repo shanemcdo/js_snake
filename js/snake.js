@@ -192,4 +192,17 @@ class Snake{
                 return true;
         return false;
     }
+
+    clone(){
+        let ret = new Snake(this.head.clone(), this.board_elem);
+        for(let point of this.tail) ret.tail.push(point);
+        ret.tail_dirs = [...this.tail_dirs];
+        ret.direction = this.direction;
+        ret.previous_direction = this.previous_direction;
+        ret.length_to_add = this.length_to_add;
+        ret.tail_elems = [...this.tail_elems];
+        ret.direction_buffer = [...this.direction_buffer];
+        ret.fruit = this.fruit;
+        return ret;
+    }
 }
