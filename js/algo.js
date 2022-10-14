@@ -6,16 +6,21 @@ class Bot {
     move(){
         this.chase_fruit()
         if(this.will_die()) {
-            let dirs = [
-                Direction.UP,
-                Direction.DOWN,
-                Direction.LEFT,
-                Direction.RIGHT,
-            ];
-            for(let dir of dirs){
-                this.game.snake.direction = dir;
-                if(!this.will_die()) return;
-            }
+            this.go_first_living_direction();
+        }
+    }
+
+    go_first_living_direction(){
+        const dirs = shuffle([
+            Direction.UP,
+            Direction.DOWN,
+            Direction.LEFT,
+            Direction.RIGHT,
+        ]);
+        for(let dir of dirs){
+            console.log(dir);
+            this.game.snake.direction = dir;
+            if(!this.will_die()) return;
         }
     }
 
@@ -50,8 +55,17 @@ class Bot {
     // check if the snake will die if it moves the current direction
     will_die(){
         let snake = this.game.snake.clone();
-        snake.update(this.game.board_size_cells);
+        snake.update(this.game.board_size_cells, this.game.loopable_walls);
         return !snake.alive;
     }
 }
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
