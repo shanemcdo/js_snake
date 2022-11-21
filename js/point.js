@@ -33,6 +33,10 @@ class Point{
         return false;
     }
 
+    dist(pos){
+        return Math.sqrt(pos.x * this.x + pos.y * this.y);
+    }
+
     static random_between(p0, p1){
         return new Point(
             Math.floor(Math.random() * (p1.x - p0.x) + p0.x),
