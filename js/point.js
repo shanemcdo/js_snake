@@ -34,7 +34,7 @@ class Point{
     }
 
     dist(pos){
-        return Math.sqrt(pos.x * this.x + pos.y * this.y);
+        return Math.sqrt(Math.pow(pos.x - this.x, 2) + Math.pow(pos.y - this.y, 2));
     }
 
     static random_between(p0, p1){

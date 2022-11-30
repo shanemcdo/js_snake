@@ -93,7 +93,6 @@ class Game{
         this.running = true;
         let bot = new Bot(game);
         let interval = setInterval(()=>{
-            bot.move();
             if(!this.snake.alive || !this.running){ // if the snake died
                 this.running = false;
                 this.finished = true;
@@ -105,6 +104,7 @@ class Game{
             if(this.paused){
                 return;
             }
+            bot.move();
             this.draw();
             this.update();
         }, 1);

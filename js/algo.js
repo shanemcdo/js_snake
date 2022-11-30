@@ -15,9 +15,9 @@ class Bot {
     move(){
         this.move_weighted()
         // this.chase_fruit()
-        // if(this.will_die()) {
-        //     this.go_first_living_direction();
-        // }
+        if(this.will_die()) {
+            this.go_first_living_direction();
+        }
     }
 
     move_weighted(){
