@@ -19,7 +19,7 @@ class Game{
         this.finished = false;
         this.paused = false;
         this.score = 0;
-        this.loopable_walls = true;
+        this.loopable_walls = false;
     }
 
     toggle_pause(){
@@ -107,7 +107,7 @@ class Game{
             }
             this.draw();
             this.update();
-        }, 10);
+        }, 1);
     }
     
     reset(){

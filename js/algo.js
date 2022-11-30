@@ -5,14 +5,7 @@ const DIRS = [
     Direction.RIGHT,
 ];
 
-const DIR_POSNS = DIRS.map(dir => {
-    switch(dir){
-        case Direction.UP: return new Point(0, -1);
-        case Direction.DOWN: return new Point(0, 1);
-        case Direction.LEFT: return new Point(-1, 0);
-        case Direction.RIGHT: return new Point(1, 0);
-    }
-})
+const DIR_POSNS = DIRS.map(dir => Point.from_dir(dir));
 
 class Bot {
     constructor(game){
@@ -22,22 +15,41 @@ class Bot {
     move(){
         this.move_weighted()
         // this.chase_fruit()
-        if(this.will_die()) {
-            this.go_first_living_direction();
-        }
+        // if(this.will_die()) {
+        //     this.go_first_living_direction();
+        // }
     }
 
     move_weighted(){
-        const biggest = DIR_POSNS.map(pos => {
-            return { pos, dist: this.path_dist(pos) }
-        }).reduce((x, y) => x.dist < y.dist ? x : y);
-        console.log(biggest);
+        const smallest = DIRS.map(dir => {
+            let pos = Point.from_dir(dir);
+            pos.x += this.game.snake.head.x,
+            pos.y += this.game.snake.head.y
+            return {
+                dir,
+                pos,
+                dist: this.path_dist(pos),
+            }
+        })//.reduce((x, y) => x.dist < y.dist ? x : y);
+        console.log(smallest);
+        const temp = smallest.reduce((x, y) => x.dist < y.dist ? x : y);
+        console.log(temp);
+        if(temp.dist == Infinity){
+            // TODO try to survive for as long as possible
+        }else{
+            this.game.snake.direction = temp.dir;
+        }
+        // this.game.snake.direction = smallest.dir;
     }
 
     // A*
     path_dist(pos){
         const open = [{ pos, fscore: 0 }];
-        const closed = [];
+        const closed = [
+            this.game.snake.head,
+            ...this.game.snake.tail
+        ];
+        if(pos.in_list(closed) || (!this.game.loopable_walls && this.out_of_bounds(pos))) return Infinity;
         while(open.length > 0){
             let smallest = {
                 index: 0,
@@ -47,23 +59,32 @@ class Bot {
                 if(open[i].pos.dist(this.game.fruit) < smallest.value.pos.dist(this.game.fruit)){
                     smallest = {
                         index: i,
-                        value: open[i]
+                        value: {
+                            pos: open[i].pos.clone(),
+                            fscore: open[i].fscore,
+                        }
                     };
                 }
             }
             open[smallest.index] = open[open.length - 1];
             open.pop();
-            closed.push(smallest.value.pos);
-            if(open.length > 1000){
-                console.log("Too long!");
-                break;
-            }
+            if(!smallest.value.pos.in_list(closed))
+                closed.push(smallest.value.pos);
+            // if(open.length > this.game.board_size_cells.x * this.game.board_size_cells.y){
+            //     console.error("Too long!");
+            //     console.log({open, closed});
+            //     break;
+            // }
             if(smallest.value.pos.equals(this.game.fruit))
                 return smallest.value.fscore;
             DIR_POSNS.map(p => new Point(
                 smallest.value.pos.x + p.x,
                 smallest.value.pos.y + p.y,
             )).map(p => {
+                if(
+                    !this.game.loopable_walls
+                    && this.out_of_bounds(p)
+                ) return null;
                 let x = p.x % this.game.board_size_cells.x;
                 if(x < 0) x += this.game.board_size_cells.x;
                 let y = p.y % this.game.board_size_cells.y;
@@ -71,14 +92,20 @@ class Bot {
                 // console.log({x, y});
                 return new Point(x, y);
             }).forEach(p => {
+                if(p == null) return;
                 // check if vistited
-                if(p.in_list(closed) || p.in_list(open))
-                    return;
+                const open_posns = open.map(item => item.pos);
+                if(
+                    p == null
+                    || p.in_list(open_posns)
+                    || p.in_list(closed)
+                ) return;
                 open.push({
                     pos: p,
                     fscore: smallest.value.fscore + 1,
                 });
             });
+            // console.log({open, closed});
         }
         return Infinity;
     }
@@ -102,6 +129,10 @@ class Bot {
             this.game.fruit.x - this.game.snake.head.x,
             this.game.fruit.y - this.game.snake.head.y,
         );
+        this.move_dir(diff);
+    }
+
+    move_dir(diff) {
         if(Math.abs(diff.x) > Math.abs(diff.y)){
             this.move_x(diff.x);
         } else {
@@ -130,6 +161,13 @@ class Bot {
         let snake = this.game.snake.clone();
         snake.update(this.game.board_size_cells, this.game.loopable_walls);
         return !snake.alive;
+    }
+
+    out_of_bounds(pos){
+        return pos.x < 0
+            || pos.y < 0
+            || pos.x >= this.game.board_size_cells.x
+            || pos.y >= this.game.board_size_cells.y
     }
 }
 
