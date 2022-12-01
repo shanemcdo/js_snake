@@ -22,9 +22,8 @@ class Bot {
 
     move_weighted(){
         const options = DIRS.map(dir => {
-            let pos = Point.from_dir(dir);
-            pos.x += this.game.snake.head.x,
-            pos.y += this.game.snake.head.y
+            let pos = Point.from_dir(dir)
+                .add(this.game.snake.head);
             return {
                 dir,
                 pos,
@@ -43,10 +42,8 @@ class Bot {
     path_dist(pos){
         if(this.out_of_bounds(pos)){
             if(this.game.loopable_walls){
-                pos.x %= this.game.board_size_cells.x;
-                if(pos.x < 0) pos.x += this.game.board_size_cells.x;
-                pos.y %= this.game.board_size_cells.y;
-                if(pos.y < 0) pos.y += this.game.board_size_cells.y;
+                pos = pos.add(this.game.board_size_cells)
+                    .mod(this.game.board_size_cells);
             } else {
                 return Infinity
             }
@@ -92,12 +89,8 @@ class Bot {
                     !this.game.loopable_walls
                     && this.out_of_bounds(p)
                 ) return null;
-                let x = p.x % this.game.board_size_cells.x;
-                if(x < 0) x += this.game.board_size_cells.x;
-                let y = p.y % this.game.board_size_cells.y;
-                if(y < 0) y += this.game.board_size_cells.y;
-                // console.log({x, y});
-                return new Point(x, y);
+                return p.add(this.game.board_size_cells)
+                    .mod(this.game.board_size_cells);
             }).forEach(p => {
                 if(p == null) return;
                 // check if vistited

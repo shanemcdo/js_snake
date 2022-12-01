@@ -26,6 +26,20 @@ class Point{
         );
     }
 
+    add(pos){
+        return new Point(
+            this.x + pos.x,
+            this.y + pos.y
+        );
+    }
+
+    mod(pos){
+        return new Point(
+            this.x % pos.x,
+            this.y % pos.y
+        );
+    }
+
     in_list(list){
         for(let item of list)
             if(this.equals(item))
