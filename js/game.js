@@ -82,7 +82,7 @@ class Game{
     update(){
         this.snake.update(this.board_size_cells, this.loopable_walls);
         if(this.snake.head.equals(this.fruit)){
-            this.snake.length_to_add += 2;
+            this.snake.length_to_add++;
             this.score += 1;
             this.score_elem.innerHTML = this.score.toString();
             this.new_fruit();
