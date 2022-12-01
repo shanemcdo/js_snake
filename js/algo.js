@@ -44,6 +44,16 @@ class Bot {
 
     // A*
     path_dist(pos){
+        if(this.out_of_bounds(pos)){
+            if(this.game.loopable_walls){
+                pos.x %= this.game.board_size_cells.x;
+                if(pos.x < 0) pos.x += this.game.board_size_cells.x;
+                pos.y %= this.game.board_size_cells.y;
+                if(pos.y < 0) pos.y += this.game.board_size_cells.y;
+            } else {
+                return Infinity
+            }
+        }
         const open = [{ pos, fscore: 0 }];
         const closed = [
             this.game.snake.head,
