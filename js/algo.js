@@ -33,6 +33,17 @@ class Bot {
         const smallest = options.reduce((x, y) => x.dist < y.dist ? x : y);
         if(smallest.dist == Infinity){
             // TODO try to survive for as long as possible
+            let largest_area = options.map(obj => {
+                return {
+                    dir: obj.dir,
+                    pos: obj.pos,
+                    visited: this.available_area(obj.pos)
+                }
+            })//.reduce((x, y) => x.visited > y.visited ? x : y);
+            console.log(largest_area);
+            largest_area = largest_area.reduce((x, y) => x.visited > y.visited ? x : y);
+            console.log(largest_area);
+            this.game.snake.direction = largest_area.dir;
         }else{
             this.game.snake.direction = smallest.dir;
         }
@@ -104,6 +115,64 @@ class Bot {
         return Infinity;
     }
 
+    available_area(pos){
+        let visited = 0;
+        if(this.out_of_bounds(pos)){
+            if(this.game.loopable_walls){
+                pos = pos.add(this.game.board_size_cells)
+                    .mod(this.game.board_size_cells);
+            } else {
+                return 0
+            }
+        }
+        const open = [pos];
+        const closed = [
+            this.game.snake.head,
+            ...this.game.snake.tail
+        ];
+        if(pos.in_list(closed)) return 0;
+        while(open.length > 0){
+            let smallest = {
+                index: 0,
+                pos: open[0]
+            };
+            for(let i = 1; i < open.length; i++){
+                if(open[i].dist(this.game.fruit) < smallest.pos.dist(this.game.fruit)){
+                    smallest = {
+                        index: i,
+                        pos: open[i].clone()
+                    };
+                }
+            }
+            open[smallest.index] = open[open.length - 1];
+            open.pop();
+            visited++;
+            if(!smallest.pos.in_list(closed))
+                closed.push(smallest.pos);
+            DIR_POSNS.map(p => new Point(
+                smallest.pos.x + p.x,
+                smallest.pos.y + p.y,
+            )).map(p => {
+                if(
+                    !this.game.loopable_walls
+                    && this.out_of_bounds(p)
+                ) return null;
+                return p.add(this.game.board_size_cells)
+                    .mod(this.game.board_size_cells);
+            }).forEach(p => {
+                if(p == null) return;
+                // check if vistited
+                if(
+                    p == null
+                    || p.in_list(open)
+                    || p.in_list(closed)
+                ) return;
+                open.push(p);
+            });
+        }
+        return visited;
+    }
+
     go_first_living_direction(){
         const dirs = shuffle([
             Direction.UP,
@@ -162,6 +231,10 @@ class Bot {
             || pos.y < 0
             || pos.x >= this.game.board_size_cells.x
             || pos.y >= this.game.board_size_cells.y
+    }
+
+    filled_percentage() {
+        return (this.game.snake.tail.length + 1) / (this.game.board_size_cells.x * this.game.board_size_cells.y);
     }
 }
 
