@@ -21,7 +21,7 @@ class Bot {
     }
 
     move_weighted(){
-        const smallest = DIRS.map(dir => {
+        const options = DIRS.map(dir => {
             let pos = Point.from_dir(dir);
             pos.x += this.game.snake.head.x,
             pos.y += this.game.snake.head.y
@@ -30,16 +30,13 @@ class Bot {
                 pos,
                 dist: this.path_dist(pos),
             }
-        })//.reduce((x, y) => x.dist < y.dist ? x : y);
-        console.log(smallest);
-        const temp = smallest.reduce((x, y) => x.dist < y.dist ? x : y);
-        console.log(temp);
-        if(temp.dist == Infinity){
+        });
+        const smallest = options.reduce((x, y) => x.dist < y.dist ? x : y);
+        if(smallest.dist == Infinity){
             // TODO try to survive for as long as possible
         }else{
-            this.game.snake.direction = temp.dir;
+            this.game.snake.direction = smallest.dir;
         }
-        // this.game.snake.direction = smallest.dir;
     }
 
     // A*
@@ -59,7 +56,7 @@ class Bot {
             this.game.snake.head,
             ...this.game.snake.tail
         ];
-        if(pos.in_list(closed) || (!this.game.loopable_walls && this.out_of_bounds(pos))) return Infinity;
+        if(pos.in_list(closed)) return Infinity;
         while(open.length > 0){
             let smallest = {
                 index: 0,
