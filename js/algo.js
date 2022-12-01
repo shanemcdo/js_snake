@@ -22,7 +22,7 @@ class Bot {
 
     move_weighted(){
         const options = DIRS.map(dir => {
-            let pos = Point.from_dir(dir)
+            const pos = Point.from_dir(dir)
                 .add(this.game.snake.head);
             return {
                 dir,
@@ -74,11 +74,6 @@ class Bot {
             open.pop();
             if(!smallest.value.pos.in_list(closed))
                 closed.push(smallest.value.pos);
-            // if(open.length > this.game.board_size_cells.x * this.game.board_size_cells.y){
-            //     console.error("Too long!");
-            //     console.log({open, closed});
-            //     break;
-            // }
             if(smallest.value.pos.equals(this.game.fruit))
                 return smallest.value.fscore;
             DIR_POSNS.map(p => new Point(
@@ -105,7 +100,6 @@ class Bot {
                     fscore: smallest.value.fscore + 1,
                 });
             });
-            // console.log({open, closed});
         }
         return Infinity;
     }
