@@ -32,17 +32,13 @@ class Bot {
         });
         const smallest = options.reduce((x, y) => x.dist < y.dist ? x : y);
         if(smallest.dist == Infinity){
-            // TODO try to survive for as long as possible
-            let largest_area = options.map(obj => {
+            const largest_area = options.map(obj => {
                 return {
                     dir: obj.dir,
                     pos: obj.pos,
                     visited: this.available_area(obj.pos)
                 }
-            })//.reduce((x, y) => x.visited > y.visited ? x : y);
-            console.log(largest_area);
-            largest_area = largest_area.reduce((x, y) => x.visited > y.visited ? x : y);
-            console.log(largest_area);
+            }).reduce((x, y) => x.visited > y.visited ? x : y);
             this.game.snake.direction = largest_area.dir;
         }else{
             this.game.snake.direction = smallest.dir;
